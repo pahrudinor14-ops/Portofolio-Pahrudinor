@@ -6,11 +6,11 @@ export const profile = {
   name: 'Pahrudinor',
   role: 'Education Primary & Technology Education Developer',
   shortRole: 'Pendidikan Dasar × Teknologi Pendidikan',
-  email: 'ganti-email-kamu@example.com',
+  email: 'pahrudinor14@gmail.com',
   location: 'Banjarmasin, Kalimantan Selatan, Indonesia',
   tagline: 'Merancang pengalaman belajar yang bermakna. Membangun teknologi yang berdampak.',
   summary:
-    'Lulusan S1 Pendidikan Guru Sekolah Dasar Universitas Achmad Yani Banjarmasin dengan IPK 3,81. Memadukan pengalaman pendidikan, pengembangan media pembelajaran, dan pembuatan produk digital untuk mendukung pembelajaran serta tata kelola sekolah.',
+    'Lulusan S1 Pendidikan Guru Sekolah Dasar Universitas Achmad Yani Banjarmasin dengan IPK 3,80. Memadukan pengalaman pendidikan, pengembangan media pembelajaran, dan pembuatan produk digital untuk mendukung pembelajaran serta tata kelola sekolah.',
   links: {
     dinoEdu: 'https://dinoedu-space.pahrudinor14.workers.dev/',
     school: 'https://mialmuhajirinkm6.sch.id/',
@@ -33,36 +33,37 @@ export const projects: Array<{
   href: string;
   cta: string;
   visual: 'space' | 'land' | 'ocean' | 'coral' | 'sun';
+  logo?: string;
 }> = [
   {
     id: 'dinoedu', number: '01', title: 'DinoEdu Space', eyebrow: 'EDUCATION PLATFORM',
     description: 'Platform digital yang menghubungkan alat bantu AI pendidikan, komik belajar DinoMath, dan komunitas NUMEA EDU.',
     category: 'Education', tags: ['AI for Education', 'DinoMath', 'NUMEA EDU'],
-    href: profile.links.dinoEdu, cta: 'Jelajahi produk', visual: 'space',
+    href: profile.links.dinoEdu, cta: 'Jelajahi produk', visual: 'space', logo: 'dinoedu-logo.png',
   },
   {
     id: 'sip', number: '02', title: 'SIP MIS Al Muhajirin', eyebrow: 'SCHOOL INFORMATION SYSTEM',
     description: 'Sistem informasi perpustakaan dan pembelajaran untuk mendukung pengelolaan layanan sekolah secara digital, dari pengalaman pengguna hingga alur administrasi.',
     category: 'Digital', tags: ['React', 'Supabase', 'School System'],
-    href: profile.links.sip, cta: 'Buka sistem', visual: 'ocean',
+    href: profile.links.sip, cta: 'Buka sistem', visual: 'ocean', logo: 'sip-mis-logo.png',
   },
   {
     id: 'mis-website', number: '03', title: 'Website MIS Al Muhajirin', eyebrow: 'SCHOOL WEBSITE',
     description: 'Website sekolah yang merangkum profil, informasi akademik, program, berita, galeri, dan informasi penerimaan peserta didik dalam satu kanal publik.',
     category: 'Digital', tags: ['Web Development', 'School Profile', 'Responsive UI'],
-    href: profile.links.school, cta: 'Kunjungi website', visual: 'land',
+    href: profile.links.school, cta: 'Kunjungi website', visual: 'land', logo: 'mis-almuhajirin-logo.png',
   },
   {
     id: 'komi', number: '04', title: 'KoMI', eyebrow: 'SCHOOL COOPERATIVE MANAGEMENT',
     description: 'Konsep dan aplikasi manajemen koperasi sekolah untuk membantu pencatatan transaksi, stok, pembelian, penjualan, pemasukan, pengeluaran, dan pelaporan.',
     category: 'Digital', tags: ['APK', 'EXE', 'Inventory & Reporting'],
-    href: '#contact', cta: 'Diskusikan proyek', visual: 'coral',
+    href: '#contact', cta: 'Diskusikan proyek', visual: 'coral', logo: 'komi-logo.png',
   },
   {
     id: 'dinomath', number: '05', title: 'DinoMath', eyebrow: 'INTERACTIVE LEARNING MEDIA',
     description: 'Komik matematika interaktif “DinoMath: Serunya Belajar Pecahan” untuk siswa kelas IV SD, menggabungkan cerita, visual, aktivitas, dan akses kuis digital.',
     category: 'Education', tags: ['Learning Media', 'Mathematics', 'Quizizz'],
-    href: '#contact', cta: 'Lihat ringkasan karya', visual: 'sun',
+    href: '#contact', cta: 'Lihat ringkasan karya', visual: 'sun', logo: 'dinomath-logo.png',
   },
   {
     id: 'research', number: '06', title: 'Riset & Publikasi Pendidikan', eyebrow: 'RESEARCH & PUBLICATION',
@@ -107,7 +108,7 @@ export const experiences = [
 ];
 
 export const education = [
-  { period: '2022 — 2026', title: 'S1 Pendidikan Guru Sekolah Dasar', place: 'Universitas Achmad Yani Banjarmasin', note: 'IPK 3,81' },
+  { period: '2022 — 2026', title: 'S1 Pendidikan Guru Sekolah Dasar', place: 'Universitas Achmad Yani Banjarmasin', note: 'IPK 3,80' },
   { period: '2019 — 2022', title: 'MIPA', place: 'MAS Darussalam Awayan', note: 'Pendidikan menengah' },
 ];
 

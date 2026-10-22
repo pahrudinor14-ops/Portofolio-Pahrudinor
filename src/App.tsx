@@ -67,6 +67,15 @@ function BrandGlyph() {
   );
 }
 
+function ProjectArtworkLogo({ logo, projectId }: { logo: string; projectId: string }) {
+  return (
+    <div className={`project-logo-orbit project-logo-orbit-${projectId}`} aria-hidden="true">
+      <span className="project-logo-satellite" />
+      <img className={`project-logo-image project-logo-image-${projectId}`} src={`${import.meta.env.BASE_URL}${logo}`} alt="" />
+    </div>
+  );
+}
+
 function SectionLabel({ number, eyebrow }: { number: string; eyebrow: string }) {
   return (
     <div className="section-label">
@@ -241,7 +250,7 @@ function App() {
           <div className="content-width hero-layout">
             <div className="hero-copy">
               <div className="hero-overline"><span className="overline-star">✦</span> A PERSONAL UNIVERSE OF IDEAS <span className="overline-rule" /></div>
-              <h1 id="hero-title">Pendidikan<br />bertemu <span>teknologi.</span></h1>
+              <h1 id="hero-title">Pendidikan<br />bertemu <span>Teknologi</span></h1>
               <p className="hero-role">{profile.role}</p>
               <p className="hero-description">{profile.tagline} Saya percaya teknologi terbaik bukan sekadar terlihat canggih, tetapi membuat belajar, bekerja, dan bertumbuh menjadi lebih bermakna.</p>
               <div className="hero-actions">
@@ -291,7 +300,7 @@ function App() {
 
         <section className="about-section section-anchor" id="about" aria-labelledby="about-title">
           <div className="content-width section-content">
-            <SectionTitle id="about-title" number="01" eyebrow="ORIGIN & PURPOSE" title="Satu fondasi." accent="Banyak kemungkinan." description="Saya bergerak di antara dunia pembelajaran dan teknologi—menerjemahkan kebutuhan nyata menjadi pengalaman, media, dan sistem yang berguna." />
+            <SectionTitle id="about-title" number="01" eyebrow="ORIGIN & PURPOSE" title="Satu fondasi" accent="banyak kemungkinan" description="Saya bergerak di antara dunia pembelajaran dan teknologi—menerjemahkan kebutuhan nyata menjadi pengalaman, media, dan sistem yang berguna." />
             <div className="about-layout">
               <figure className="about-portrait-card reveal">
                 <span className="portrait-coordinate">PERSONAL PROFILE / PHR-01</span>
@@ -306,13 +315,13 @@ function App() {
               </figure>
               <div className="about-copy reveal">
                 <div className="about-intro-label"><span className="status-led" /> PROFILE / PHR-01</div>
-                <h3>Halo, saya <em>{profile.name}.</em></h3>
+                <h3>Halo, saya <em>{profile.name}</em></h3>
                 <p>{profile.summary}</p>
                 <p>Perjalanan saya mencakup pengembangan media belajar, pengelolaan informasi sekolah, aplikasi manajemen, penelitian pendidikan, serta kolaborasi organisasi. Setiap proyek menjadi kesempatan untuk menghubungkan tujuan pedagogis dengan solusi digital yang terukur.</p>
                 <div className="about-data-grid">
                   <div><span>BASE OF OPERATION</span><strong>{profile.location}</strong></div>
                   <div><span>ACADEMIC BACKGROUND</span><strong>Pendidikan Guru Sekolah Dasar</strong></div>
-                  <div><span>ACADEMIC PERFORMANCE</span><strong>IPK 3,81 / 4,00</strong></div>
+                  <div><span>ACADEMIC PERFORMANCE</span><strong>IPK 3,80 / 4,00</strong></div>
                   <div><span>FOCUS AREA</span><strong>Primary Education · EdTech</strong></div>
                 </div>
               </div>
@@ -330,7 +339,7 @@ function App() {
 
         <section className="works-section section-anchor" id="works" aria-labelledby="works-title">
           <div className="content-width section-content">
-            <SectionTitle id="works-title" number="02" eyebrow="SELECTED MISSIONS" title="Karya yang" accent="menjadi bukti." description="Setiap karya berangkat dari kebutuhan yang berbeda. Pilih sinyal, jelajahi konteks, dan lihat bagaimana sebuah ide berubah menjadi produk atau kontribusi." />
+            <SectionTitle id="works-title" number="02" eyebrow="SELECTED MISSIONS" title="Karya yang" accent="menjadi bukti" description="Setiap karya berangkat dari kebutuhan yang berbeda. Pilih sinyal, jelajahi konteks, dan lihat bagaimana sebuah ide berubah menjadi produk atau kontribusi." />
             <div className="project-controls reveal">
               <div className="project-count"><span className="status-led" /><strong>{String(visibleProjects.length).padStart(2, '0')}</strong><span>PROJECT SIGNALS FOUND</span></div>
               <div className="project-filters" role="group" aria-label="Filter kategori karya">
@@ -345,8 +354,8 @@ function App() {
                     <div className="project-art" aria-hidden="true">
                       <div className="project-art-grid" />
                       <div className="project-nebula project-nebula-a" /><div className="project-nebula project-nebula-b" />
-                      {project.id === 'dinoedu' ? (
-                        <img className="project-dino-logo" src={`${import.meta.env.BASE_URL}dinoedu-logo.png`} alt="" />
+                      {project.logo ? (
+                        <ProjectArtworkLogo logo={project.logo} projectId={project.id} />
                       ) : (
                         <div className="project-orb"><span /><i /></div>
                       )}
@@ -372,7 +381,7 @@ function App() {
 
         <section className="skills-section section-anchor" id="skills" aria-labelledby="skills-title">
           <div className="content-width section-content">
-            <SectionTitle id="skills-title" number="03" eyebrow="CAPABILITY NETWORK" title="Keahlian dalam" accent="satu sistem." description="Keahlian terbaik bekerja sebagai jaringan. Pedagogi memberi arah, desain memperjelas pengalaman, dan teknologi membantu gagasan bertumbuh." />
+            <SectionTitle id="skills-title" number="03" eyebrow="CAPABILITY NETWORK" title="Keahlian dalam" accent="satu sistem" description="Keahlian terbaik bekerja sebagai jaringan. Pedagogi memberi arah, desain memperjelas pengalaman, dan teknologi membantu gagasan bertumbuh." />
             <div className="skills-network-head reveal"><span><Layers3 size={15} /> SYSTEM MAP / 03 NODES</span><span>SELECTED CAPABILITIES</span></div>
             <div className="skills-grid">
               {skillGroups.map((group, index) => (
@@ -392,7 +401,7 @@ function App() {
 
         <section className="experience-section section-anchor" id="experience" aria-labelledby="experience-title">
           <div className="content-width section-content">
-            <SectionTitle id="experience-title" number="04" eyebrow="MISSION LOG" title="Jejak perjalanan." accent="Pelajaran yang dibawa." description="Pengalaman dalam pendidikan, organisasi, dan publikasi membentuk cara saya mengelola proyek: mendengarkan kebutuhan, menyusun proses, lalu bekerja bersama hingga tuntas." />
+            <SectionTitle id="experience-title" number="04" eyebrow="MISSION LOG" title="Jejak perjalanan &" accent="Pelajaran yang dibawa" description="Pengalaman dalam pendidikan, organisasi, dan publikasi membentuk cara saya mengelola proyek: mendengarkan kebutuhan, menyusun proses, lalu bekerja bersama hingga tuntas." />
             <div className="experience-layout">
               <div className="experience-timeline reveal">
                 <div className="timeline-spine" />
@@ -417,12 +426,12 @@ function App() {
         <section className="contact-section section-anchor" id="contact" aria-labelledby="contact-title">
           <div className="contact-nebula" aria-hidden="true" />
           <div className="content-width section-content">
-            <SectionTitle id="contact-title" number="05" eyebrow="OPEN TRANSMISSION" title="Mari bertemu di" accent="orbit berikutnya." description="Terbuka untuk kolaborasi di bidang pendidikan dasar, pengembangan media pembelajaran, teknologi pendidikan, dan solusi digital untuk sekolah." />
+            <SectionTitle id="contact-title" number="05" eyebrow="OPEN TRANSMISSION" title="Mari bertemu di" accent="orbit berikutnya" description="Terbuka untuk kolaborasi di bidang pendidikan dasar, pengembangan media pembelajaran, teknologi pendidikan, dan solusi digital untuk sekolah." />
             <div className="contact-layout">
               <div className="contact-message reveal">
                 <div className="contact-planet" aria-hidden="true"><div className="contact-planet-ring" /><div className="contact-planet-core" /><span className="contact-planet-moon" /></div>
                 <div className="contact-message-caption"><span className="status-led" /> SIGNAL OPEN</div>
-                <h3>Ide baik layak<br /><em>menemukan orbitnya.</em></h3>
+                <h3>Ide baik layak<br /><em>menemukan orbitnya</em></h3>
                 <p>Mulai percakapan tentang proyek, peluang kolaborasi, atau gagasan yang dapat mendukung pembelajaran dan layanan pendidikan.</p>
                 <div className="contact-links">
                   <a href={profile.links.dinoEdu} target="_blank" rel="noreferrer"><span><Compass size={17} /></span><span><small>PRODUCT SPACE</small><strong>Pahrudinor</strong></span><ExternalLink size={15} /></a>
@@ -459,8 +468,8 @@ function App() {
               <div className="project-art-grid" />
               <div className="project-nebula project-nebula-a" />
               <div className="project-nebula project-nebula-b" />
-              {selectedProject.id === 'dinoedu' ? (
-                <img className="project-dino-logo" src={`${import.meta.env.BASE_URL}dinoedu-logo.png`} alt="" />
+              {selectedProject.logo ? (
+                <ProjectArtworkLogo logo={selectedProject.logo} projectId={selectedProject.id} />
               ) : (
                 <div className="project-orb"><span /><i /></div>
               )}
