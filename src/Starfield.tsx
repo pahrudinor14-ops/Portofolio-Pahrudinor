@@ -153,6 +153,7 @@ export default function Starfield({ enabled = true }: { enabled?: boolean }) {
     const trailCanvas = trailCanvasRef.current;
     const trailCtx = trailCanvas?.getContext('2d', { alpha: true });
     if (!canvas || !ctx || !trailCanvas || !trailCtx) return undefined;
+    const trailContext: CanvasRenderingContext2D = trailCtx;
 
     const reducedQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     let reducedMotion = reducedQuery.matches;
@@ -259,8 +260,8 @@ export default function Starfield({ enabled = true }: { enabled?: boolean }) {
         ctx!.stroke();
       });
 
-      trailCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      trailCtx.clearRect(0, 0, width, height);
+      trailContext.setTransform(dpr, 0, 0, dpr, 0, 0);
+      trailContext.clearRect(0, 0, width, height);
       if (enabled && !reducedMotion) {
         const livePoints = trailPoints.filter((point) => time - point.time < 420);
         trailPoints.splice(0, trailPoints.length, ...livePoints);
@@ -269,16 +270,16 @@ export default function Starfield({ enabled = true }: { enabled?: boolean }) {
           const to = trailPoints[index];
           const age = Math.max(time - from.time, time - to.time);
           const fade = Math.max(0, 1 - age / 420);
-          trailCtx.globalAlpha = fade * 0.72;
-          trailCtx.strokeStyle = 'rgba(139, 233, 246, .82)';
-          trailCtx.lineWidth = 2.4 * fade;
-          trailCtx.lineCap = 'round';
-          trailCtx.shadowBlur = 11 * fade;
-          trailCtx.shadowColor = 'rgba(139, 233, 246, .8)';
-          trailCtx.beginPath();
-          trailCtx.moveTo(from.x, from.y);
-          trailCtx.lineTo(to.x, to.y);
-          trailCtx.stroke();
+          trailContext.globalAlpha = fade * 0.72;
+          trailContext.strokeStyle = 'rgba(139, 233, 246, .82)';
+          trailContext.lineWidth = 2.4 * fade;
+          trailContext.lineCap = 'round';
+          trailContext.shadowBlur = 11 * fade;
+          trailContext.shadowColor = 'rgba(139, 233, 246, .8)';
+          trailContext.beginPath();
+          trailContext.moveTo(from.x, from.y);
+          trailContext.lineTo(to.x, to.y);
+          trailContext.stroke();
         }
 
         const liveSparks = trailSparks.filter((spark) => time - spark.start < spark.life);
@@ -289,34 +290,34 @@ export default function Starfield({ enabled = true }: { enabled?: boolean }) {
           const x = spark.x + spark.vx * progress * 18;
           const y = spark.y + spark.vy * progress * 18;
           const radius = spark.size * (1 - progress * 0.55);
-          const glow = trailCtx.createRadialGradient(x, y, 0, x, y, radius * 5);
+          const glow = trailContext.createRadialGradient(x, y, 0, x, y, radius * 5);
           glow.addColorStop(0, `rgba(${spark.color}, ${0.85 * fade})`);
           glow.addColorStop(0.28, `rgba(${spark.color}, ${0.28 * fade})`);
           glow.addColorStop(1, `rgba(${spark.color}, 0)`);
-          trailCtx.globalAlpha = 1;
-          trailCtx.fillStyle = glow;
-          trailCtx.beginPath();
-          trailCtx.arc(x, y, radius * 5, 0, Math.PI * 2);
-          trailCtx.fill();
-          trailCtx.globalAlpha = fade;
-          trailCtx.fillStyle = `rgb(${spark.color})`;
-          trailCtx.beginPath();
-          trailCtx.arc(x, y, radius, 0, Math.PI * 2);
-          trailCtx.fill();
+          trailContext.globalAlpha = 1;
+          trailContext.fillStyle = glow;
+          trailContext.beginPath();
+          trailContext.arc(x, y, radius * 5, 0, Math.PI * 2);
+          trailContext.fill();
+          trailContext.globalAlpha = fade;
+          trailContext.fillStyle = `rgb(${spark.color})`;
+          trailContext.beginPath();
+          trailContext.arc(x, y, radius, 0, Math.PI * 2);
+          trailContext.fill();
           if (spark.size > 1.35) {
-            trailCtx.strokeStyle = `rgba(${spark.color}, ${fade * 0.8})`;
-            trailCtx.lineWidth = 0.65;
-            trailCtx.beginPath();
-            trailCtx.moveTo(x - radius * 2.2, y);
-            trailCtx.lineTo(x + radius * 2.2, y);
-            trailCtx.moveTo(x, y - radius * 2.2);
-            trailCtx.lineTo(x, y + radius * 2.2);
-            trailCtx.stroke();
+            trailContext.strokeStyle = `rgba(${spark.color}, ${fade * 0.8})`;
+            trailContext.lineWidth = 0.65;
+            trailContext.beginPath();
+            trailContext.moveTo(x - radius * 2.2, y);
+            trailContext.lineTo(x + radius * 2.2, y);
+            trailContext.moveTo(x, y - radius * 2.2);
+            trailContext.lineTo(x, y + radius * 2.2);
+            trailContext.stroke();
           }
         });
       }
-      trailCtx.globalAlpha = 1;
-      trailCtx.shadowBlur = 0;
+      trailContext.globalAlpha = 1;
+      trailContext.shadowBlur = 0;
 
       if (allowLoop && enabled && !reducedMotion && !document.hidden) {
         // Cap time influence on low-refresh or throttled devices; star motion remains intentionally subtle.
