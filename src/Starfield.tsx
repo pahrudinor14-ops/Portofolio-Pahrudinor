@@ -334,7 +334,7 @@ export default function Starfield({ enabled = true }: { enabled?: boolean }) {
         nx: (event.clientX / Math.max(width, 1) - 0.5) * 2,
         ny: (event.clientY / Math.max(height, 1) - 0.5) * 2,
       };
-      if (enabled && !reducedMotion && event.pointerType !== 'touch') {
+      if (enabled && !reducedMotion) {
         const previous = lastTrailPointer;
         const current = { x: event.clientX, y: event.clientY, time: now };
         if (previous) {
@@ -368,6 +368,22 @@ export default function Starfield({ enabled = true }: { enabled?: boolean }) {
         lastTrailPointer = current;
       }
       if (reducedMotion || !enabled) draw(performance.now(), false);
+    };
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.pointerType !== 'touch') return;
+      const now = performance.now();
+      pointer = {
+        x: event.clientX,
+        y: event.clientY,
+        nx: (event.clientX / Math.max(width, 1) - 0.5) * 2,
+        ny: (event.clientY / Math.max(height, 1) - 0.5) * 2,
+      };
+      lastTrailPointer = { x: event.clientX, y: event.clientY, time: now };
+    };
+
+    const onPointerEnd = (event: PointerEvent) => {
+      if (event.pointerType === 'touch') lastTrailPointer = null;
     };
 
     const onPointerLeave = () => {
@@ -408,7 +424,10 @@ export default function Starfield({ enabled = true }: { enabled?: boolean }) {
     resize();
     if (enabled && !reducedMotion && !document.hidden) frame = requestAnimationFrame((time) => draw(time, true));
     window.addEventListener('resize', resize, { passive: true });
+    window.addEventListener('pointerdown', onPointerDown, { passive: true });
     window.addEventListener('pointermove', onPointerMove, { passive: true });
+    window.addEventListener('pointerup', onPointerEnd, { passive: true });
+    window.addEventListener('pointercancel', onPointerEnd, { passive: true });
     window.addEventListener('pointerleave', onPointerLeave, { passive: true });
     window.addEventListener('click', onClick);
     document.addEventListener('visibilitychange', onVisibility);
@@ -417,7 +436,10 @@ export default function Starfield({ enabled = true }: { enabled?: boolean }) {
     return () => {
       if (frame) cancelAnimationFrame(frame);
       window.removeEventListener('resize', resize);
+      window.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerEnd);
+      window.removeEventListener('pointercancel', onPointerEnd);
       window.removeEventListener('pointerleave', onPointerLeave);
       window.removeEventListener('click', onClick);
       document.removeEventListener('visibilitychange', onVisibility);

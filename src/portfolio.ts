@@ -35,9 +35,9 @@ export const projects: Array<{
   visual: 'space' | 'land' | 'ocean' | 'coral' | 'sun';
 }> = [
   {
-    id: 'dinoedu', number: '01', title: 'Pahrudinor', eyebrow: 'PERSONAL PORTFOLIO',
-    description: 'Portofolio digital yang merangkum karya, pengalaman, riset, dan pengembangan teknologi pendidikan.',
-    category: 'Digital', tags: ['React', 'Vite', 'Education Technology'],
+    id: 'dinoedu', number: '01', title: 'DinoEdu Space', eyebrow: 'EDUCATION PLATFORM',
+    description: 'Platform digital yang menghubungkan alat bantu AI pendidikan, komik belajar DinoMath, dan komunitas NUMEA EDU.',
+    category: 'Education', tags: ['AI for Education', 'DinoMath', 'NUMEA EDU'],
     href: profile.links.dinoEdu, cta: 'Jelajahi produk', visual: 'space',
   },
   {

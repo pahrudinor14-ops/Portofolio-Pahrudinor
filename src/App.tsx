@@ -345,7 +345,11 @@ function App() {
                     <div className="project-art" aria-hidden="true">
                       <div className="project-art-grid" />
                       <div className="project-nebula project-nebula-a" /><div className="project-nebula project-nebula-b" />
-                      <div className="project-orb"><span /><i /></div>
+                      {project.id === 'dinoedu' ? (
+                        <img className="project-dino-logo" src={`${import.meta.env.BASE_URL}dinoedu-logo.png`} alt="" />
+                      ) : (
+                        <div className="project-orb"><span /><i /></div>
+                      )}
                       <span className="project-index">PROJECT / {project.number}</span>
                       <span className="project-art-label">{project.eyebrow}</span>
                       <span className="project-open-icon"><ArrowUpRight size={17} /></span>
@@ -451,7 +455,17 @@ function App() {
       {selectedProject && (
         <div className="project-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setSelectedProjectId(null); }}>
           <section className={`project-modal project-${selectedProject.visual}`} role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
-            <div className="modal-art" aria-hidden="true"><div className="project-art-grid" /><div className="project-nebula project-nebula-a" /><div className="project-nebula project-nebula-b" /><div className="project-orb"><span /><i /></div><span className="modal-art-coord">PROJECT SIGNAL / {selectedProject.number}</span></div>
+            <div className="modal-art" aria-hidden="true">
+              <div className="project-art-grid" />
+              <div className="project-nebula project-nebula-a" />
+              <div className="project-nebula project-nebula-b" />
+              {selectedProject.id === 'dinoedu' ? (
+                <img className="project-dino-logo" src={`${import.meta.env.BASE_URL}dinoedu-logo.png`} alt="" />
+              ) : (
+                <div className="project-orb"><span /><i /></div>
+              )}
+              <span className="modal-art-coord">PROJECT SIGNAL / {selectedProject.number}</span>
+            </div>
             <button className="modal-close" type="button" onClick={() => setSelectedProjectId(null)} aria-label="Tutup detail proyek"><X size={20} /></button>
             <div className="modal-copy"><div className="project-category"><span>{selectedProject.category}</span><span>{selectedProject.eyebrow}</span></div><h2 id="project-modal-title">{selectedProject.title}</h2><p>{selectedProject.description}</p><div className="modal-tags">{selectedProject.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
               <div className="modal-note"><span>MY CONTRIBUTION</span><p>Peran, fitur, teknologi, dan hasil detail proyek dapat dilengkapi pada <code>src/portfolio.ts</code> agar setiap studi kasus akurat dan sesuai bukti yang tersedia.</p></div>
