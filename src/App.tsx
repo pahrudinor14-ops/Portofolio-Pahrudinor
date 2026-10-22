@@ -298,7 +298,7 @@ function App() {
                 <span className="portrait-index"><i /> PGSD · EDTECH</span>
                 <span className="portrait-orbit portrait-orbit-a" aria-hidden="true" />
                 <span className="portrait-orbit portrait-orbit-b" aria-hidden="true" />
-                <img className="about-portrait-image" src="/pahrudinor-formal.png" alt="Foto formal Pahrudinor mengenakan jas hitam" />
+                <img className="about-portrait-image" src={`${import.meta.env.BASE_URL}pahrudinor-formal.png`} alt="Foto formal Pahrudinor mengenakan jas hitam" />
                 <figcaption className="portrait-caption">
                   <span className="portrait-caption-name"><small>EDUCATION & TECHNOLOGY</small><strong>{profile.name}</strong></span>
                   <span className="portrait-status"><i /> OPEN TO COLLABORATE</span>
