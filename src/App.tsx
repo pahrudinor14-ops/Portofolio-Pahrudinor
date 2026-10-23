@@ -56,6 +56,11 @@ const navItems = [
 const projectFilters = ['Semua', 'Digital', 'Education', 'Research'] as const;
 type ProjectFilter = (typeof projectFilters)[number];
 
+const normalizeProjectSearch = (value: string) => value
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .toLocaleLowerCase('id-ID');
+
 function BrandGlyph() {
   return (
     <span className="brand-glyph" aria-hidden="true">
@@ -116,11 +121,20 @@ function App() {
   const canEmail = Boolean(profile.email && !profile.email.includes('example.com') && !profile.email.includes('ganti-email'));
 
   const visibleProjects = useMemo(() => {
-    const query = projectSearch.trim().toLocaleLowerCase('id-ID');
+    const queryTerms = normalizeProjectSearch(projectSearch).trim().split(/\s+/).filter(Boolean);
     return projects.filter((project) => {
       const matchesFilter = filter === 'Semua' || project.category === filter;
-      const searchable = `${project.title} ${project.eyebrow} ${project.description} ${project.tags.join(' ')}`.toLocaleLowerCase('id-ID');
-      return matchesFilter && (!query || searchable.includes(query));
+      const searchable = normalizeProjectSearch([
+        project.number,
+        project.id,
+        project.title,
+        project.category,
+        project.eyebrow,
+        project.description,
+        project.tags.join(' '),
+        project.cta,
+      ].join(' '));
+      return matchesFilter && queryTerms.every((term) => searchable.includes(term));
     });
   }, [filter, projectSearch]);
 
@@ -147,7 +161,7 @@ function App() {
         }
       });
     }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
+    document.querySelectorAll('.reveal:not(.project-card)').forEach((element) => revealObserver.observe(element));
 
     return () => {
       window.removeEventListener('scroll', onScroll);
@@ -155,6 +169,23 @@ function App() {
       revealObserver.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    const projectCards = document.querySelectorAll<HTMLElement>('.project-card.reveal:not(.is-visible)');
+    if (projectCards.length === 0) return undefined;
+
+    const projectRevealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    projectCards.forEach((card) => projectRevealObserver.observe(card));
+    return () => projectRevealObserver.disconnect();
+  }, [visibleProjects]);
 
   useEffect(() => {
     const onSlashShortcut = (event: KeyboardEvent) => {
@@ -341,11 +372,35 @@ function App() {
           <div className="content-width section-content">
             <SectionTitle id="works-title" number="02" eyebrow="SELECTED MISSIONS" title="Karya yang" accent="menjadi bukti" description="Setiap karya berangkat dari kebutuhan yang berbeda. Pilih sinyal, jelajahi konteks, dan lihat bagaimana sebuah ide berubah menjadi produk atau kontribusi." />
             <div className="project-controls reveal">
-              <div className="project-count"><span className="status-led" /><strong>{String(visibleProjects.length).padStart(2, '0')}</strong><span>PROJECT SIGNALS FOUND</span></div>
+              <div className="project-count" role="status" aria-live="polite" aria-atomic="true"><span className="status-led" /><strong>{String(visibleProjects.length).padStart(2, '0')}</strong><span>PROJECT SIGNALS FOUND</span></div>
               <div className="project-filters" role="group" aria-label="Filter kategori karya">
                 {projectFilters.map((item) => <button type="button" key={item} className={filter === item ? 'active' : ''} onClick={() => setFilter(item)} aria-pressed={filter === item}>{item}</button>)}
               </div>
-              <label className="project-search"><Search size={15} /><input ref={projectSearchRef} value={projectSearch} onChange={(event) => setProjectSearch(event.target.value)} placeholder="Cari karya..." aria-label="Cari karya" /><kbd>/</kbd></label>
+              <div className="project-search" role="search">
+                <Search size={15} aria-hidden="true" />
+                <input
+                  ref={projectSearchRef}
+                  value={projectSearch}
+                  onChange={(event) => setProjectSearch(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Escape' && projectSearch) {
+                      event.preventDefault();
+                      setProjectSearch('');
+                    }
+                  }}
+                  placeholder="Cari karya..."
+                  aria-label="Cari karya"
+                  autoComplete="off"
+                  autoCapitalize="none"
+                  spellCheck={false}
+                />
+                <kbd aria-hidden="true">/</kbd>
+                {projectSearch && (
+                  <button className="project-search-clear" type="button" onClick={() => { setProjectSearch(''); projectSearchRef.current?.focus(); }} aria-label="Hapus pencarian karya">
+                    <X size={13} />
+                  </button>
+                )}
+              </div>
             </div>
             <div className="project-grid">
               {visibleProjects.map((project, index) => (
@@ -373,7 +428,7 @@ function App() {
                   <div className="project-card-foot"><span>FIELD NOTE {project.number}</span><button type="button" onClick={() => setSelectedProjectId(project.id)}>Baca studi kasus <ArrowRight size={14} /></button></div>
                 </article>
               ))}
-              {visibleProjects.length === 0 && <div className="empty-projects"><Search size={22} /><strong>Tidak ada sinyal yang cocok.</strong><span>Coba kata kunci atau kategori lain.</span><button type="button" onClick={() => { setProjectSearch(''); setFilter('Semua'); }}>Reset pencarian</button></div>}
+              {visibleProjects.length === 0 && <div className="empty-projects"><Search size={22} /><strong>Tidak ada sinyal yang cocok.</strong><span>Coba kata kunci atau kategori lain.</span><button type="button" onClick={() => { setProjectSearch(''); setFilter('Semua'); }}>Reset filter &amp; pencarian</button></div>}
             </div>
             <div className="works-footer reveal"><span>END OF TRANSMISSION <i /></span><p>Lebih dari sekadar tampilan—setiap proyek perlu menjawab kebutuhan dan menjelaskan alasan di balik solusinya.</p><a href="#contact">Bicarakan sebuah ide <ArrowUpRight size={16} /></a></div>
           </div>
