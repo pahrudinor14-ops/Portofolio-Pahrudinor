@@ -39,7 +39,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .universe-backdrop { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: radial-gradient(ellipse at 50% 10%, #0a1024 0%, #050816 35%, #03050b 75%); }
 .universe-backdrop::before { content: ''; position: absolute; inset: -20%; background: radial-gradient(ellipse at 17% 28%, rgba(36, 69, 143, .2), transparent 28%), radial-gradient(ellipse at 78% 42%, rgba(84, 42, 119, .15), transparent 29%), radial-gradient(ellipse at 50% 76%, rgba(30, 78, 114, .13), transparent 30%); transform: rotate(-7deg); }
 .universe-backdrop::after { content: ''; position: absolute; inset: -8%; background-image: url("https://assets.science.nasa.gov/dynamicimage/assets/science/missions/hubble/releases/2026/04/STScI-01KM5VPG2R1WX1SY7ASDJ9JEV5.jpg?fit=clip&h=1936&w=2000"); background-size: cover; background-position: 52% 45%; opacity: .145; mix-blend-mode: screen; filter: saturate(.72) brightness(.7); mask-image: radial-gradient(ellipse 82% 90% at 52% 44%, #000 16%, rgba(0,0,0,.72) 56%, transparent 100%); }
-.nebula-cloud { position: absolute; border-radius: 50%; filter: blur(72px); opacity: .3; mix-blend-mode: screen; }
+.nebula-cloud { position: absolute; border-radius: 50%; filter: blur(72px); opacity: .26; mix-blend-mode: screen; }
 .nebula-cloud-a { width: 42vw; height: 31vw; min-width: 320px; min-height: 260px; top: -10%; left: -9%; background: radial-gradient(ellipse, rgba(38, 88, 170, .7), rgba(43, 55, 115, .2) 48%, transparent 72%); transform: rotate(-28deg); }
 .nebula-cloud-b { width: 39vw; height: 33vw; min-width: 300px; min-height: 240px; top: 18%; right: -12%; background: radial-gradient(ellipse, rgba(114, 54, 135, .55), rgba(73, 43, 110, .18) 51%, transparent 73%); transform: rotate(24deg); }
 .nebula-cloud-c { width: 54vw; height: 32vw; min-width: 380px; min-height: 260px; bottom: -18%; left: 24%; background: radial-gradient(ellipse, rgba(31, 77, 129, .5), rgba(42, 49, 94, .15) 56%, transparent 74%); transform: rotate(-18deg); }
@@ -47,22 +47,17 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .cosmic-vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 18%, rgba(1, 3, 8, .24) 62%, rgba(1, 2, 7, .74) 100%); }
 .starfield-canvas { position: fixed; inset: 0; z-index: 1; display: block; pointer-events: none; }
 .cursor-trail-canvas { position: fixed; inset: 0; z-index: 26; display: block; pointer-events: none; mix-blend-mode: screen; }
-.page-grain { position: fixed; inset: 0; z-index: 2; pointer-events: none; opacity: .18; background-image: radial-gradient(rgba(222, 232, 255, .28) .42px, transparent .55px); background-size: 4px 4px; mix-blend-mode: soft-light; }
+.page-grain { position: fixed; inset: 0; z-index: 2; pointer-events: none; opacity: .12; background-image: radial-gradient(rgba(222, 232, 255, .28) .42px, transparent .55px); background-size: 4px 4px; mix-blend-mode: soft-light; }
 .content-width { width: min(1160px, calc(100% - 64px)); margin: 0 auto; }
 .section-anchor { scroll-margin-top: 88px; position: relative; z-index: 3; }
 
 /* Navigation: instrument panel floating over the night sky */
 .site-header { position: fixed; z-index: 30; top: 0; left: 0; right: 0; min-height: 76px; display: flex; justify-content: space-between; align-items: center; gap: 26px; padding: 14px max(28px, calc((100vw - 1320px) / 2)); border-bottom: 1px solid transparent; transition: background .28s ease, border-color .28s ease, min-height .28s ease; }
 .site-header.is-scrolled { min-height: 68px; background: rgba(3, 5, 12, .79); border-color: rgba(177, 205, 255, .12); backdrop-filter: blur(20px) saturate(1.2); }
-.brand { display: inline-flex; align-items: center; gap: 12px; min-width: 0; }
-.brand-glyph { display: inline-block; width: 39px; height: 39px; position: relative; flex: 0 0 auto; }
-.brand-glyph-orbit { position: absolute; left: 50%; top: 50%; width: 37px; height: 15px; border: 1px solid rgba(139, 233, 246, .72); border-radius: 50%; transform: translate(-50%, -50%) rotate(-35deg); }
-.brand-glyph-orbit-b { width: 30px; height: 21px; border-color: rgba(198, 166, 255, .7); transform: translate(-50%, -50%) rotate(54deg); }
-.brand-glyph-core { position: absolute; width: 9px; height: 9px; top: 15px; left: 15px; border-radius: 50%; background: #b5f5ff; box-shadow: 0 0 13px rgba(139, 233, 246, .86), 0 0 30px rgba(139, 233, 246, .34); }
-.brand-glyph-spark { position: absolute; top: -2px; right: -2px; color: var(--gold); font-size: 11px; }
+.brand { display: inline-flex; align-items: center; min-width: 0; }
 .brand-copy { display: flex; flex-direction: column; gap: 3px; }
-.brand-copy strong { font-family: var(--display); font-size: 16px; font-weight: 600; letter-spacing: -.045em; white-space: nowrap; }
-.brand-copy strong span { color: var(--cyan); }
+.brand-name { display: inline-block; color: #edf2ff; font: 600 17px var(--display); letter-spacing: -.055em; white-space: nowrap; background: linear-gradient(100deg, #edf2ff 0%, #b9eaf4 58%, #d1baff 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; transition: filter .2s ease; }
+.brand:hover .brand-name, .footer-brand:hover .brand-name { filter: drop-shadow(0 0 10px rgba(139, 233, 246, .24)); }
 .brand-copy small { color: #687795; font: 8px var(--mono); letter-spacing: .095em; }
 .brand-copy small i { display: inline-block; width: 3px; height: 3px; margin: 0 5px 2px; border-radius: 50%; background: var(--gold); }
 .header-right { display: flex; align-items: center; gap: 23px; }
@@ -345,7 +340,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 /* Footer and project case-study window */
 .site-footer { position: relative; z-index: 3; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 23px max(32px, calc((100vw - 1160px) / 2)); border-top: 1px solid rgba(153, 186, 255, .1); background: rgba(2, 4, 10, .94); }
-.footer-brand { display: inline-flex; align-items: center; gap: 9px; color: #dce7fb; font: 600 11px var(--display); }.footer-brand .brand-glyph { width: 27px; height: 27px; transform: scale(.72); transform-origin: center; margin: -5px; }.site-footer > p { color: #657796; font-size: 9px; margin: 0; }.footer-right { display: flex; align-items: center; gap: 20px; color: #5f7293; font: 8px var(--mono); }.footer-right a { display: inline-flex; align-items: center; gap: 5px; color: #9eb4d9; }.footer-right a:hover { color: var(--cyan); }
+.footer-brand { display: inline-flex; align-items: center; color: #dce7fb; font: 600 11px var(--display); }.footer-brand .brand-name { font-size: 14px; }.site-footer > p { color: #657796; font-size: 9px; margin: 0; }.footer-right { display: flex; align-items: center; gap: 20px; color: #5f7293; font: 8px var(--mono); }.footer-right a { display: inline-flex; align-items: center; gap: 5px; color: #9eb4d9; }.footer-right a:hover { color: var(--cyan); }
 .project-modal-backdrop { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 24px; background: rgba(1, 3, 8, .82); backdrop-filter: blur(14px); animation: fade-in .2s ease both; }
 .project-modal { position: relative; width: min(560px, 100%); max-height: min(88vh, 800px); overflow: auto; border: 1px solid rgba(177, 207, 255, .23); border-radius: 19px; background: #080e20; box-shadow: 0 35px 130px rgba(0,0,0,.58), 0 0 60px rgba(88, 129, 222, .12); animation: modal-in .3s var(--ease) both; }.modal-art { position: relative; height: 190px; overflow: hidden; background: linear-gradient(140deg, #101a39, #13243e 56%, #18243b); }.modal-art .project-orb { width: 122px; height: 122px; top: 30px; right: 28%; }.modal-art .project-logo-orbit { width: 144px; height: 144px; top: 17px; right: calc(50% - 72px); }.modal-art .project-logo-image-dinoedu { width: 108px; height: 108px; }.modal-art-coord { position: absolute; left: 20px; top: 18px; z-index: 3; color: #a8bbda; font: 8px var(--mono); letter-spacing: .1em; }.modal-close { position: absolute; z-index: 5; right: 14px; top: 14px; display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid rgba(197, 221, 255, .2); border-radius: 50%; color: #e0eaff; background: rgba(3, 7, 18, .76); cursor: pointer; }.modal-close:hover { color: var(--cyan); border-color: rgba(139, 233, 246, .5); }.modal-copy { padding: 25px 27px 29px; }.modal-copy h2 { color: #edf3ff; font: 600 30px/1.2 var(--display); letter-spacing: -.06em; margin: 17px 0 10px; }.modal-copy > p { color: #9baac5; font-size: 11px; line-height: 1.9; margin: 0; }.modal-tags { margin-top: 15px; }.modal-note { margin-top: 22px; padding: 15px; border-left: 2px solid var(--cyan); background: rgba(139, 233, 246, .04); }.modal-note > span { color: #83a0c9; font: 8px var(--mono); letter-spacing: .09em; }.modal-note p { color: #8f9fbc; font-size: 9px; line-height: 1.8; margin: 8px 0 0; }.modal-note code { color: #bcd3f6; font-family: var(--mono); }.modal-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }.modal-actions .button { min-height: 41px; font-size: 10px; }
 
@@ -447,7 +442,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 @media (max-width: 560px) {
   .content-width { width: calc(100% - 32px); }
   .universe-backdrop::after { opacity: .095; background-position: 50% 50%; }
-  .site-header { padding: 10px 16px; }.brand { gap: 8px; }.brand-glyph { transform: scale(.88); transform-origin: center; margin: -2px; }.brand-copy strong { font-size: 14px; }.brand-copy small { font-size: 7px; }.motion-toggle { padding: 7px 8px; }
+  .site-header { padding: 10px 16px; }.brand-name { font-size: 14px; }.brand-copy small { font-size: 7px; }.motion-toggle { padding: 7px 8px; }
   .hero-section { padding-top: 104px; padding-bottom: 58px; }.hero-overline { font-size: 7px; letter-spacing: .08em; margin-bottom: 17px; }.hero-copy h1 { font-size: clamp(44px, 12.8vw, 64px); line-height: .95; }.hero-role { font-size: 12px; margin-top: 20px; }.hero-description { font-size: 11px; line-height: 1.9; }.hero-actions { gap: 15px; margin-top: 23px; }.hero-actions .button { width: 100%; justify-content: space-between; }.text-link { padding-left: 2px; }.hero-footnote { gap: 6px 9px; font-size: 7px; line-height: 1.55; }
   .constellation-panel { padding: 12px 11px 11px; border-radius: 15px; }.panel-cap { font-size: 7px; }.panel-cap > span:last-child { max-width: 100px; text-align: right; line-height: 1.5; }.constellation-stage { height: 330px; min-height: 330px; }.constellation-core { width: 72px; height: 72px; }.constellation-core::before { width: 108px; height: 39px; }.constellation-core::after { width: 124px; height: 50px; }.constellation-core b { font-size: 14px; }.node-star { width: 32px; height: 32px; }.node-star svg { width: 14px; height: 14px; }.node-caption { min-width: 71px; }.node-caption strong { font-size: 9px; }.node-caption small { font-size: 7px; }.node-north { top: 5%; }.node-west { left: 0; top: 42%; gap: 6px; }.node-east { right: 0; top: 55%; gap: 6px; }.node-south { bottom: 7%; }.node-halo { width: 37px; height: 37px; }.is-selected .node-halo { width: 48px; height: 48px; }.map-legend { font-size: 6px; bottom: 4px; }.constellation-info { grid-template-columns: 32px 1fr 25px; gap: 8px; padding: 12px 2px 1px; }.active-info-icon { width: 31px; height: 31px; }.active-info-copy small { font-size: 7px; }.active-info-copy strong { font-size: 12px; }.active-info-copy p { font-size: 9px; }.constellation-info > a { width: 25px; height: 25px; }
   .hero-coordinate { font-size: 6px; }.coordinate-a { top: 77px; left: 16px; }.scroll-cue { left: 16px; bottom: 19px; font-size: 7px; }
@@ -465,16 +460,16 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .reveal { opacity: 1 !important; transform: none !important; }
 }
 
-/* Comfortable reading sizes and a starfield scrollbar */
-:root { scrollbar-color: #91e7f3 #080d1b; scrollbar-width: thin; }
-::-webkit-scrollbar { width: 13px; height: 13px; }
-::-webkit-scrollbar-track { border-left: 1px solid rgba(139, 233, 246, .14); background-color: #080d1b; background-image: radial-gradient(circle, rgba(240, 206, 145, .72) 1px, transparent 1.6px), radial-gradient(circle, rgba(139, 233, 246, .65) .8px, transparent 1.5px), linear-gradient(180deg, rgba(28, 38, 74, .6), rgba(7, 10, 22, .92)); background-size: 11px 31px, 13px 43px, 100% 100%; background-position: 4px 8px, 8px 20px, center; }
-::-webkit-scrollbar-thumb { min-height: 46px; border: 3px solid #080d1b; border-radius: 999px; background: linear-gradient(180deg, #8be9f6 0%, #a9c7ff 52%, #c6a6ff 78%, #f0ce91 100%); }
-::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #f0ce91, #c6a6ff 38%, #8be9f6); }
-::-webkit-scrollbar-corner { background: #080d1b; }
+/* One thin celestial scrollbar for the page and every nested scroll area. */
+:root, * { scrollbar-color: rgba(139, 233, 246, .62) rgba(8, 13, 27, .78); scrollbar-width: thin; }
+*::-webkit-scrollbar { width: 7px; height: 7px; }
+*::-webkit-scrollbar-track { border: 1px solid rgba(139, 233, 246, .1); border-radius: 999px; background: rgba(8, 13, 27, .78); }
+*::-webkit-scrollbar-thumb { min-height: 34px; border: 2px solid transparent; border-radius: 999px; background: linear-gradient(180deg, #8be9f6 0%, #a9c7ff 48%, #c6a6ff 78%, #f0ce91 100%); background-clip: padding-box; }
+*::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #f0ce91, #c6a6ff 38%, #8be9f6); background-clip: padding-box; }
+*::-webkit-scrollbar-corner { background: #080d1b; }
 
 body { font-size: 16px; line-height: 1.7; }
-.brand-copy strong { font-size: 18px; }
+.brand-name { font-size: 18px; }
 .brand-copy small { font-size: 10px; }
 .main-nav a { font-size: 14px; }
 .motion-toggle { font-size: 10px; }
@@ -517,6 +512,8 @@ body { font-size: 16px; line-height: 1.7; }
 }
 
 @media (max-width: 560px) {
+  .brand-name { font-size: 14px; }
+  .brand-copy small { font-size: 7px; }
   .about-portrait-card { min-height: min(410px, 112vw); }
   .about-portrait-image { width: 82%; height: 76%; bottom: 58px; }
   .portrait-index { top: 15px; right: 13px; padding: 6px 8px; font-size: 8px; }

@@ -4,7 +4,7 @@
  */
 export const profile = {
   name: 'Pahrudinor',
-  role: 'Education Primary & Technology Education Developer',
+  role: 'Lulusan PGSD & Pengembang Teknologi Pendidikan',
   shortRole: 'Pendidikan Dasar × Teknologi Pendidikan',
   email: 'pahrudinor14@gmail.com',
   location: 'Banjarmasin, Kalimantan Selatan, Indonesia',

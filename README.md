@@ -1,6 +1,6 @@
 # Pahrudinor — Orbit of Learning & Technology
 
-Portofolio pribadi untuk **Education Primary & Technology Education Developer**. Ini adalah redesign penuh dengan satu bahasa visual galaksi: medan bintang prosedural, nebula berlapis, jalur debu, konstelasi interaktif, dan panel instrumen astronomi. Tema lama enam lapisan dunia tidak digunakan lagi sebagai sistem desain.
+Portofolio pribadi untuk lulusan PGSD dan pengembang teknologi pendidikan. Identitas visual galaksi memadukan medan bintang, nebula berlapis, konstelasi interaktif, dan panel informasi astronomi.
 
 ## Teknologi
 
@@ -34,7 +34,7 @@ npm run preview
 
 Edit `src/portfolio.ts` untuk memperbarui nama, peran, ringkasan, email, tautan, karya, keahlian, pengalaman, pendidikan, dan publikasi. Jangan mengubah data yang belum terverifikasi menjadi klaim pencapaian.
 
-**Sebelum dipublikasikan, ganti** `ganti-email-kamu@example.com` dengan email yang ingin ditampilkan. Formulir kontak sengaja nonaktif sampai email nyata diatur agar tidak mengirim ke alamat placeholder.
+Email kontak diatur melalui `profile.email` pada `src/portfolio.ts`. Formulir menyiapkan pesan melalui aplikasi email pengunjung (`mailto:`); website ini tidak memiliki backend formulir.
 
 ### 2. Sistem visual
 

@@ -61,17 +61,6 @@ const normalizeProjectSearch = (value: string) => value
   .replace(/[\u0300-\u036f]/g, '')
   .toLocaleLowerCase('id-ID');
 
-function BrandGlyph() {
-  return (
-    <span className="brand-glyph" aria-hidden="true">
-      <span className="brand-glyph-orbit brand-glyph-orbit-a" />
-      <span className="brand-glyph-orbit brand-glyph-orbit-b" />
-      <span className="brand-glyph-core" />
-      <span className="brand-glyph-spark">✦</span>
-    </span>
-  );
-}
-
 function ProjectArtworkLogo({ logo, projectId }: { logo: string; projectId: string }) {
   return (
     <div className={`project-logo-orbit project-logo-orbit-${projectId}`} aria-hidden="true">
@@ -104,17 +93,24 @@ function SectionTitle({ number, eyebrow, title, accent, description, id }: {
 }
 
 function App() {
+  const currentYear = new Date().getFullYear();
   const [activeNav, setActiveNav] = useState('home');
   const [activeOrbit, setActiveOrbit] = useState<OrbitFocus>('education');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [motionEnabled, setMotionEnabled] = useState(true);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(
+    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  );
   const [filter, setFilter] = useState<ProjectFilter>('Semua');
   const [projectSearch, setProjectSearch] = useState('');
   const projectSearchRef = useRef<HTMLInputElement>(null);
+  const projectModalCloseRef = useRef<HTMLButtonElement>(null);
+  const projectTriggerRef = useRef<HTMLElement | null>(null);
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  const motionIsActive = motionEnabled && !prefersReducedMotion;
   const activeOrbitNode = orbitNodes.find((node) => node.id === activeOrbit) ?? orbitNodes[0];
   const ActiveOrbitIcon = activeOrbitNode.icon;
   const selectedProject = projects.find((project) => project.id === selectedProjectId) ?? null;
@@ -137,6 +133,14 @@ function App() {
       return matchesFilter && queryTerms.every((term) => searchable.includes(term));
     });
   }, [filter, projectSearch]);
+
+  useEffect(() => {
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updatePreference = (event: MediaQueryListEvent) => setPrefersReducedMotion(event.matches);
+    setPrefersReducedMotion(preference.matches);
+    preference.addEventListener('change', updatePreference);
+    return () => preference.removeEventListener('change', updatePreference);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -203,8 +207,39 @@ function App() {
 
   useEffect(() => {
     if (!selectedProjectId) return undefined;
+    const previouslyFocusedElement = projectTriggerRef.current;
+    projectModalCloseRef.current?.focus();
+
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setSelectedProjectId(null);
+      if (event.key === 'Escape') {
+        setSelectedProjectId(null);
+        return;
+      }
+
+      if (event.key !== 'Tab') return;
+
+      const dialog = document.querySelector<HTMLElement>('.project-modal');
+      const focusableElements = dialog
+        ? [...dialog.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        )].filter((element) => element.getClientRects().length > 0)
+        : [];
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (!dialog || !firstElement || !lastElement) {
+        event.preventDefault();
+        projectModalCloseRef.current?.focus();
+        return;
+      }
+
+      if (event.shiftKey && (document.activeElement === firstElement || !dialog.contains(document.activeElement))) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && (document.activeElement === lastElement || !dialog.contains(document.activeElement))) {
+        event.preventDefault();
+        firstElement.focus();
+      }
     };
     document.addEventListener('keydown', onKeyDown);
     const previousOverflow = document.body.style.overflow;
@@ -212,10 +247,15 @@ function App() {
     return () => {
       document.removeEventListener('keydown', onKeyDown);
       document.body.style.overflow = previousOverflow;
+      if (previouslyFocusedElement?.isConnected) previouslyFocusedElement.focus();
     };
   }, [selectedProjectId]);
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
+  const openProject = (projectId: string) => {
+    projectTriggerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    setSelectedProjectId(projectId);
+  };
 
   const copyEmail = async () => {
     if (!canEmail) return;
@@ -237,7 +277,7 @@ function App() {
   };
 
   return (
-    <div className={`portfolio-app ${motionEnabled ? 'motion-on' : 'motion-off'}`}>
+      <div className={`portfolio-app ${motionIsActive ? 'motion-on' : 'motion-off'}`}>
       <div className="universe-backdrop" aria-hidden="true">
         <div className="nebula-cloud nebula-cloud-a" />
         <div className="nebula-cloud nebula-cloud-b" />
@@ -245,15 +285,14 @@ function App() {
         <div className="galactic-rift" />
         <div className="cosmic-vignette" />
       </div>
-      <Starfield enabled={motionEnabled} />
+      <Starfield enabled={motionIsActive} />
       <div className="page-grain" aria-hidden="true" />
 
       <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
         <a className="brand" href="#home" onClick={closeMobileMenu} aria-label="Pahrudinor, kembali ke beranda">
-          <BrandGlyph />
           <span className="brand-copy">
-            <strong>Pahrudinor</strong>
-            <small>PERSONAL PORTFOLIO <i /> 2026</small>
+            <strong className="brand-name">{profile.name}</strong>
+            <small>PERSONAL PORTFOLIO <i /> {currentYear}</small>
           </span>
         </a>
         <div className="header-right">
@@ -264,9 +303,9 @@ function App() {
               </a>
             ))}
           </nav>
-          <button className="motion-toggle" type="button" aria-pressed={motionEnabled} onClick={() => setMotionEnabled((current) => !current)} title={motionEnabled ? 'Jeda animasi bintang' : 'Aktifkan animasi bintang'}>
-            <span className={`motion-indicator ${motionEnabled ? 'is-running' : ''}`} />
-            <span>{motionEnabled ? 'STARFIELD LIVE' : 'STARFIELD PAUSED'}</span>
+          <button className="motion-toggle" type="button" aria-label={prefersReducedMotion ? 'Animasi bintang dijeda oleh pengaturan sistem' : motionEnabled ? 'Jeda animasi bintang' : 'Aktifkan animasi bintang'} aria-pressed={motionIsActive} disabled={prefersReducedMotion} onClick={() => setMotionEnabled((current) => !current)} title={prefersReducedMotion ? 'Animasi dijeda sesuai pengaturan sistem' : motionEnabled ? 'Jeda animasi bintang' : 'Aktifkan animasi bintang'}>
+            <span className={`motion-indicator ${motionIsActive ? 'is-running' : ''}`} />
+            <span>{prefersReducedMotion ? 'SYSTEM REDUCED MOTION' : motionEnabled ? 'STARFIELD LIVE' : 'STARFIELD PAUSED'}</span>
           </button>
           <button className="mobile-menu-button" type="button" aria-label={mobileMenuOpen ? 'Tutup menu' : 'Buka menu'} aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen((open) => !open)}>
             {mobileMenuOpen ? <X size={19} /> : <Layers3 size={19} />}
@@ -326,7 +365,7 @@ function App() {
             </div>
           </div>
           <a className="scroll-cue" href="#about"><span className="scroll-cue-line" /><span>SCROLL TO EXPLORE</span><ArrowDownRight size={14} /></a>
-          <div className="hero-lowerline" aria-hidden="true"><span>PAHRUDINOR</span><span>PORTFOLIO INDEX / 2026</span><span>03°19′ S · 114°35′ E</span></div>
+          <div className="hero-lowerline" aria-hidden="true"><span>PAHRUDINOR</span><span>PORTFOLIO INDEX / {currentYear}</span><span>03°19′ S · 114°35′ E</span></div>
         </section>
 
         <section className="about-section section-anchor" id="about" aria-labelledby="about-title">
@@ -405,7 +444,7 @@ function App() {
             <div className="project-grid">
               {visibleProjects.map((project, index) => (
                 <article className={`project-card project-${project.visual} reveal`} key={project.id} style={{ animationDelay: `${index * 65}ms` }}>
-                  <button className="project-open-area" type="button" onClick={() => setSelectedProjectId(project.id)} aria-label={`Lihat detail ${project.title}`}>
+                  <button className="project-open-area" type="button" onClick={() => openProject(project.id)} aria-label={`Lihat detail ${project.title}`}>
                     <div className="project-art" aria-hidden="true">
                       <div className="project-art-grid" />
                       <div className="project-nebula project-nebula-a" /><div className="project-nebula project-nebula-b" />
@@ -425,7 +464,7 @@ function App() {
                       <div className="project-tags">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
                     </div>
                   </button>
-                  <div className="project-card-foot"><span>FIELD NOTE {project.number}</span><button type="button" onClick={() => setSelectedProjectId(project.id)}>Baca studi kasus <ArrowRight size={14} /></button></div>
+                  <div className="project-card-foot"><span>FIELD NOTE {project.number}</span><button type="button" onClick={() => openProject(project.id)}>Lihat detail proyek <ArrowRight size={14} /></button></div>
                 </article>
               ))}
               {visibleProjects.length === 0 && <div className="empty-projects"><Search size={22} /><strong>Tidak ada sinyal yang cocok.</strong><span>Coba kata kunci atau kategori lain.</span><button type="button" onClick={() => { setProjectSearch(''); setFilter('Semua'); }}>Reset filter &amp; pencarian</button></div>}
@@ -491,7 +530,7 @@ function App() {
                 <div className="contact-links">
                   <a href={profile.links.dinoEdu} target="_blank" rel="noreferrer"><span><Compass size={17} /></span><span><small>PRODUCT SPACE</small><strong>Pahrudinor</strong></span><ExternalLink size={15} /></a>
                   <a href={profile.links.github} target="_blank" rel="noreferrer"><span><Code2 size={17} /></span><span><small>SOURCE & DEVELOPMENT</small><strong>GitHub project</strong></span><ExternalLink size={15} /></a>
-                  {canEmail && <button type="button" onClick={copyEmail}><span><Mail size={17} /></span><span><small>DIRECT CONTACT</small><strong>{profile.email}</strong></span>{copiedEmail ? <Check size={15} /> : <Copy size={15} />}</button>}
+                  {canEmail && <button type="button" aria-label={copiedEmail ? 'Alamat email tersalin' : 'Salin alamat email'} onClick={copyEmail}><span><Mail size={17} /></span><span><small>DIRECT CONTACT</small><strong>{profile.email}</strong></span>{copiedEmail ? <Check size={15} /> : <Copy size={15} />}</button>}
                 </div>
                 {!canEmail && <p className="contact-config-note">Alamat email dapat diatur di <code>src/portfolio.ts</code> sebelum website dipublikasikan.</p>}
               </div>
@@ -511,9 +550,9 @@ function App() {
       </main>
 
       <footer className="site-footer">
-        <a className="footer-brand" href="#home"><BrandGlyph /><span>Pahrudinor</span></a>
+        <a className="footer-brand" href="#home"><span className="brand-name">{profile.name}</span></a>
         <p>Dirancang untuk belajar. Dibangun untuk memberi dampak.</p>
-        <div className="footer-right"><span>© {new Date().getFullYear()} {profile.name}</span><a href="#home">Kembali ke orbit <ArrowUpRight size={13} /></a></div>
+        <div className="footer-right"><span>© {currentYear} My Portofolio</span><a href="#home">Kembali ke orbit <ArrowUpRight size={13} /></a></div>
       </footer>
 
       {selectedProject && (
@@ -530,9 +569,8 @@ function App() {
               )}
               <span className="modal-art-coord">PROJECT SIGNAL / {selectedProject.number}</span>
             </div>
-            <button className="modal-close" type="button" onClick={() => setSelectedProjectId(null)} aria-label="Tutup detail proyek"><X size={20} /></button>
+            <button ref={projectModalCloseRef} className="modal-close" type="button" onClick={() => setSelectedProjectId(null)} aria-label="Tutup detail proyek"><X size={20} /></button>
             <div className="modal-copy"><div className="project-category"><span>{selectedProject.category}</span><span>{selectedProject.eyebrow}</span></div><h2 id="project-modal-title">{selectedProject.title}</h2><p>{selectedProject.description}</p><div className="modal-tags">{selectedProject.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-              <div className="modal-note"><span>MY CONTRIBUTION</span><p>Peran, fitur, teknologi, dan hasil detail proyek dapat dilengkapi pada <code>src/portfolio.ts</code> agar setiap studi kasus akurat dan sesuai bukti yang tersedia.</p></div>
               <div className="modal-actions">
                 {selectedProject.href.startsWith('http') ? <a className="button button-primary" href={selectedProject.href} target="_blank" rel="noreferrer">Buka proyek <ExternalLink size={16} /></a> : <a className="button button-primary" href={selectedProject.href} onClick={() => setSelectedProjectId(null)}>Lihat bagian terkait <ArrowUpRight size={16} /></a>}
                 <button className="button button-quiet" type="button" onClick={() => setSelectedProjectId(null)}>Kembali ke karya</button>
