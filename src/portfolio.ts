@@ -10,7 +10,7 @@ export const profile = {
   location: 'Banjarmasin, Kalimantan Selatan, Indonesia',
   tagline: 'Merancang pengalaman belajar yang bermakna. Membangun teknologi yang berdampak.',
   summary:
-    'Lulusan S1 Pendidikan Guru Sekolah Dasar Universitas Achmad Yani Banjarmasin dengan IPK 3,80. Memadukan pengalaman pendidikan, pengembangan media pembelajaran, dan pembuatan produk digital untuk mendukung pembelajaran serta tata kelola sekolah.',
+    'Lulusan S1 Pendidikan Guru Sekolah Dasar Universitas Achmad Yani Banjarmasin dengan predikat Cum Laude. Memadukan pengalaman pendidikan, pengembangan media pembelajaran, dan pembuatan produk digital untuk mendukung pembelajaran serta tata kelola sekolah.',
   links: {
     dinoEdu: 'https://dinoedu-space.pahrudinor14.workers.dev/',
     school: 'https://mialmuhajirinkm6.sch.id/',
@@ -91,10 +91,10 @@ export const skillGroups = [
 export const experiences = [
   {
     period: '2026 — sekarang', type: 'EDITORIAL', title: 'Editorial Assistant / Editor Jurnal', place: 'Sultan Adam · Aducorio · JIS',
-    detail: 'Mendukung pengelolaan naskah, pemeriksaan kelengkapan, metadata, DOI, dan persiapan publikasi artikel melalui alur kerja jurnal.',
+    detail: 'Mendukung pengelolaan naskah, pemeriksaan kelengkapan, metadata, DOI, dan persiapan publikasi artikel melalui workflow OJS.',
   },
   {
-    period: '2024 — 2025', type: 'KOMUNIKASI DIGITAL', title: 'Mentor Kominfo BEM', place: 'Universitas Achmad Yani Banjarmasin',
+    period: '2024 — 2025', type: 'KOMUNIKASI DIGITAL', title: 'Menteri Kominfo BEM', place: 'Universitas Achmad Yani Banjarmasin',
     detail: 'Mengelola publikasi dan dokumentasi digital, menyiapkan konten organisasi, serta membantu promosi kegiatan dan kolaborasi dengan mitra.',
   },
   {
@@ -102,18 +102,18 @@ export const experiences = [
     detail: 'Mengoordinasikan program literasi, numerasi, adaptasi teknologi, dan berbagi praktik penggunaan media digital bersama guru.',
   },
   {
-    period: '2024', type: 'PERTUKARAN MAHASISWA', title: 'Pertukaran Mahasiswa Merdeka Angkatan 4', place: 'Universitas Islam Makassar',
-    detail: 'Mengikuti pembelajaran lintas kampus dan kegiatan pengenalan keberagaman budaya, termasuk kontribusi pada kegiatan mengajar di sekolah.',
+    period: '2024', type: 'PERTUKARAN MAHASISWA', title: 'Pertukaran Mahasiswa Merdeka Angkatan 4', place: 'Universitas Islam Makassar (PTI)',
+    detail: 'Mengikuti pembelajaran lintas kampus dan kegiatan pengenalan keberagaman budaya, termasuk kontribusi pada daerah dan pendidikan.',
   },
 ];
 
 export const education = [
-  { period: '2022 — 2026', title: 'S1 Pendidikan Guru Sekolah Dasar', place: 'Universitas Achmad Yani Banjarmasin', note: 'IPK 3,80' },
+  { period: '2022 — 2026', title: 'Pendidikan Guru Sekolah Dasar', place: 'Universitas Achmad Yani Banjarmasin', note: 'Sarjana' },
   { period: '2019 — 2022', title: 'MIPA', place: 'MAS Darussalam Awayan', note: 'Pendidikan menengah' },
 ];
 
 export const publications = [
-  'DinoMath: Serunya Belajar Pecahan — komik matematika interaktif untuk pembelajaran pecahan kelas IV SD.',
-  'Pengembangan media komik matematika interaktif untuk membantu meningkatkan kemampuan operasi hitung pecahan siswa sekolah dasar.',
-  'Pengalaman editorial: Sultan Adam: Jurnal Hukum dan Sosial, Aducorio: Education Curiosity, dan Journal of Islamic Studies (JIS).',
+  'Inovasi Media Pembelajaran: Mengembangkan DinoMath, komik matematika interaktif berhak cipta untuk pembelajaran pecahan siswa SD.',
+  'Kontribusi Ilmiah: Mempublikasikan penelitian pengembangan media komik matematika interaktif di Pendas: Jurnal Ilmiah Pendidikan Dasar (SINTA 4).',
+  'Transformasi Digital Pendidikan: Merancang dan mengembangkan website sekolah, sistem informasi perpustakaan dan pembelajaran, aplikasi KoMI, serta platform edukasi DinoEdu Space.',
 ];

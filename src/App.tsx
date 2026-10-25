@@ -23,22 +23,22 @@ type OrbitNode = {
 
 const orbitNodes: OrbitNode[] = [
   {
-    id: 'education', number: '01', label: 'Pendidikan', heading: 'Learning is the core.',
+    id: 'education', number: '01', label: 'Pendidikan', heading: 'Learning is the core',
     description: 'Berangkat dari kebutuhan peserta didik, konteks kelas, dan tujuan pembelajaran sebelum merancang solusi.',
     icon: BookOpen, position: 'node-north', target: 'about',
   },
   {
-    id: 'design', number: '02', label: 'Desain', heading: 'Make ideas tangible.',
+    id: 'design', number: '02', label: 'Desain', heading: 'Make ideas tangible',
     description: 'Mengubah gagasan menjadi media belajar, alur kerja, dan antarmuka yang jelas serta mudah digunakan.',
     icon: Lightbulb, position: 'node-west', target: 'works',
   },
   {
-    id: 'technology', number: '03', label: 'Teknologi', heading: 'Build with purpose.',
+    id: 'technology', number: '03', label: 'Teknologi', heading: 'Build with purpose',
     description: 'Mengembangkan website dan aplikasi yang menyelesaikan kebutuhan nyata di lingkungan pendidikan.',
     icon: Code2, position: 'node-east', target: 'works',
   },
   {
-    id: 'impact', number: '04', label: 'Dampak', heading: 'Small systems. Real change.',
+    id: 'impact', number: '04', label: 'Dampak', heading: 'Small systems, Real change',
     description: 'Menghubungkan penelitian, kolaborasi, dan produk digital agar manfaatnya bisa dirasakan lebih luas.',
     icon: Zap, position: 'node-south', target: 'experience',
   },
@@ -324,7 +324,7 @@ function App() {
               <p className="hero-role">{profile.role}</p>
               <p className="hero-description">{profile.tagline} Saya percaya teknologi terbaik bukan sekadar terlihat canggih, tetapi membuat belajar, bekerja, dan bertumbuh menjadi lebih bermakna.</p>
               <div className="hero-actions">
-                <a className="button button-primary" href="#works">Jelajahi semesta karya <ArrowUpRight size={17} /></a>
+                <a className="button button-primary" href="#works">Jelajahi karya saya<ArrowUpRight size={17} /></a>
                 <a className="text-link" href="#about">Kenali perjalanan saya <ArrowDownRight size={16} /></a>
               </div>
               <div className="hero-footnote"><span className="footnote-index">FIG. 01</span><span>EXPLORING THE INTERSECTION OF</span><strong>PRIMARY EDUCATION × DIGITAL INNOVATION</strong></div>
@@ -370,11 +370,11 @@ function App() {
 
         <section className="about-section section-anchor" id="about" aria-labelledby="about-title">
           <div className="content-width section-content">
-            <SectionTitle id="about-title" number="01" eyebrow="ORIGIN & PURPOSE" title="Satu fondasi" accent="banyak kemungkinan" description="Saya bergerak di antara dunia pembelajaran dan teknologi—menerjemahkan kebutuhan nyata menjadi pengalaman, media, dan sistem yang berguna." />
+            <SectionTitle id="about-title" number="01" eyebrow="ORIGIN & PURPOSE" title="Satu fondasi" accent="banyak kemungkinan" description="Saya bergerak di antara dunia pembelajaran dan teknologi, menerjemahkan kebutuhan nyata menjadi pengalaman, media, dan sistem yang berguna." />
             <div className="about-layout">
               <figure className="about-portrait-card reveal">
                 <span className="portrait-coordinate">PERSONAL PROFILE / PHR-01</span>
-                <span className="portrait-index"><i /> PGSD · EDTECH</span>
+                <span className="portrait-index"><i /> PGSD & EDTECH</span>
                 <span className="portrait-orbit portrait-orbit-a" aria-hidden="true" />
                 <span className="portrait-orbit portrait-orbit-b" aria-hidden="true" />
                 <img className="about-portrait-image" src={`${import.meta.env.BASE_URL}pahrudinor-formal.png`} alt="Foto formal Pahrudinor mengenakan jas hitam" />
@@ -509,7 +509,7 @@ function App() {
               </div>
               <aside className="research-panel reveal">
                 <div className="research-panel-head"><span><BookOpen size={15} /> RESEARCH & PUBLICATION</span><span>FIELD NOTES</span></div>
-                <div className="research-abstract"><div className="research-orbit-icon"><Sparkles size={24} /></div><span>ACADEMIC CONTRIBUTION</span><h3>Penelitian, media, dan literasi ilmiah.</h3><p>Minat kerja saya mencakup pengembangan media pembelajaran dan dukungan editorial dalam proses publikasi ilmiah.</p></div>
+                <div className="research-abstract"><div className="research-orbit-icon"><Sparkles size={24} /></div><span>ACADEMIC CONTRIBUTION</span><h3>Inovasi Pendidikan dan Teknologi Digital</h3><p>Fokus saya mencakup inovasi media pembelajaran matematika, publikasi ilmiah pendidikan, dan pengembangan teknologi digital untuk mendukung pembelajaran.</p></div>
                 <div className="publication-list">{publications.map((publication, index) => <div className="publication-item" key={publication}><span>0{index + 1}</span><p>{publication}</p><ArrowUpRight size={14} /></div>)}</div>
                 <div className="research-panel-bottom"><span>RESEARCH TRACE</span><span><i /> DOCUMENTED</span></div>
               </aside>
